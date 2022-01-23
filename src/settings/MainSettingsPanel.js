@@ -10,20 +10,29 @@ import ClickButton from "../elements/ClickButton";
 
 class MainSettingsPanel extends React.Component {
 
-    constructor(props) {
-        super(props);
 
-        this.listeners = props.listeners;
+    constructor(toGameIndex, toRuleIndex) {
+        super();
+
+        this.TO_GAME = "ToGame";
+        this.TO_RULES = "ToRules";
+
+        this.listeners = [];
+        this.toGameIndex = toGameIndex;
+        this.toRuleIndex = toRuleIndex;
+    }
+
+    addListener(listener) {
+        this.listeners.push(listener);
     }
 
     onAction(actionId) {
-        if (actionId === "ToGames") {
-            this.listeners.forEach(l => l.onNext(1));
-        } else if (actionId === "ToRules") {
-            this.listeners.forEach(l => l.onPrev(1));
+        if (actionId === this.TO_GAME) {
+            this.listeners.forEach(l => l.onNext(this.toGameIndex));
+        } else if (actionId === this.TO_RULES) {
+            this.listeners.forEach(l => l.onPrev(this.toRuleIndex));
         }
     }
-
 
     render() {
         return (
@@ -54,8 +63,8 @@ class MainSettingsPanel extends React.Component {
                     <td><SoundControlCheckBox/></td>
                 </tr>
                 <tr>
-                    <td><ClickButton text={"Читать правила"} listeners={[this]} actionId={"ToRules"}/></td>
-                    <td><ClickButton text={"Вперед к игре"} listeners={[this]} actionId={"ToGames"}/></td>
+                    <td><ClickButton text={"Читать правила"} listeners={[this]} actionId={this.TO_RULES}/></td>
+                    <td><ClickButton text={"Вперед к игре"} listeners={[this]} actionId={this.TO_GAME}/></td>
                 </tr>
                 </tbody>
             </table>

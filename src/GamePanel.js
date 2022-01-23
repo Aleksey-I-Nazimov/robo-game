@@ -26,7 +26,6 @@ class GamePanel extends React.Component {
         return this.panels[this.#getState()].render();
     }
 
-
     #makeState(number) {
         return {panel: number};
     }
@@ -36,3 +35,5 @@ class GamePanel extends React.Component {
     }
 
 }
+
+export default GamePanel

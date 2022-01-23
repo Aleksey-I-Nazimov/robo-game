@@ -5,14 +5,22 @@ import ClickButton from "../elements/ClickButton";
 class RulesPanel extends React.Component {
 
 
-    constructor(props) {
-        super(props);
+    constructor(toSettingsIndex) {
+        super();
 
-        this.listeners = props.listeners;
+        this.TO_SETTINGS = "toSettings";
+        this.listeners = [];
+        this.toSettingsIndex = toSettingsIndex;
     }
 
-    onAction() {
-        this.listeners.forEach(l => l.onNext(1));
+    addListener(listener) {
+        this.listeners.push(listener);
+    }
+
+    onAction(actionId) {
+        if (actionId === this.TO_SETTINGS) {
+            this.listeners.forEach(l => l.onNext(this.toSettingsIndex));
+        }
     }
 
     render() {
@@ -36,7 +44,7 @@ class RulesPanel extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                        <ClickButton text={"Поехали к настройкам"} listeners={[this]}/>
+                        <ClickButton text={"Поехали к настройкам"} listeners={[this]} actionId={this.TO_SETTINGS}/>
                     </td>
                 </tr>
                 </tbody>

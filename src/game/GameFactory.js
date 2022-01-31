@@ -1,39 +1,48 @@
 import Game from "./Game";
 import GameFieldFactory from "./field/factory/GameFieldFactory";
+import ContentFactory from "./info/ContentFactory";
+import SoundModel from "./info/SoundModel";
 
 
 class GameFactory {
 
     constructor(settingsModelProvider) {
-
         this.settingsModelProvider = settingsModelProvider;
         this.gameFieldFactory = new GameFieldFactory(settingsModelProvider);
-
+        this.contentFactory = new ContentFactory();
+        this.timeCalculator = new TimeCalculator();
     }
 
     makeGame() {
+
         const gameFields = this.gameFieldFactory.makeGameFields();
         const settings = this.settingsModelProvider.getSettingsModel();
-        const timeoutModel = settings.getTimeControl();
+        const timeoutDict = settings.getTimeControl();
         const attemptsNumber = settings.getAttemptsNumber();
-        const soundsControl = settings.getSoundControl();
-        const scenario = settings.getScenario();
-        const difficulty = settings.getDifficulty();
-        
-        const timeout = this.#decodeTimeout(difficulty);
-        const soundModel = this.#makeSoundModel(soundsControl, scenario);
+        const soundFlag = settings.getSoundControl();
+        const scenarioDict = settings.getScenario();
+        const difficultyDict = settings.getDifficulty();
+
+        const timeout = this.#decodeTimeout(difficultyDict, timeoutDict);
+        const soundModel = this.#makeSoundModel(soundFlag, scenarioDict);
 
         return new Game(gameFields, attemptsNumber, timeout, soundModel, 700);
     }
 
 
-    #decodeTimeout(difficulty) {
-        return undefined;
+    #decodeTimeout(difficultyDict, timeoutDict) {
+
+        const difContent = this.contentFactory.resolveContentByKey(difficultyDict.getKey());
+        const timeoutContent = this.contentFactory.resolveContentByKey(timeoutDict.getKey());
+
+        const timeout = this.timeCalculator.calculateFullTime(difContent, timeoutContent);
+
+        return timeout;
     }
 
 
     #makeSoundModel(soundsControl, scenario) {
-        return undefined;
+        return new SoundModel(false);
     }
 
 }

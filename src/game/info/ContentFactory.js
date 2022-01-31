@@ -97,40 +97,49 @@ class ContentFactory {
 
 
     twoTwoInfo() {
-        return new Content(this.twoTwoKey, "2x2", "", "", {width: 2, height: 2});
+        return new Content(this.twoTwoKey, "2x2", "", "",
+            {width: 2, height: 2});
     }
 
     fiveFiveInfo() {
-        return new Content(this.fiveFiveKey, "5x5", "", "", {width: 5, height: 5});
+        return new Content(this.fiveFiveKey, "5x5", "", "",
+            {width: 5, height: 5});
     }
 
     tenTenInfo() {
-        return new Content(this.tenTenKey, "10x10", "", "", {width: 10, height: 10});
+        return new Content(this.tenTenKey, "10x10", "", "",
+            {width: 10, height: 10});
     }
 
     fifteenTenInfo() {
-        return new Content(this.fifteenTenKey, "15x10", "", "", {width: 15, height: 10});
+        return new Content(this.fifteenTenKey, "15x10", "", "",
+            {width: 15, height: 10});
     }
 
     twentyFifteenInfo() {
-        return new Content(this.twentyFifteenKey, "25х15", "", "", {width: 25, height: 15});
+        return new Content(this.twentyFifteenKey, "25х15", "", "",
+            {width: 25, height: 15});
     }
 
 
     timeDisabledInfo() {
-        return new Content(this.timeDisabledKey, "Выключено");
+        return new Content(this.timeDisabledKey, "Выключено", null, null,
+            {enabled: false, timeCoefficient: -1});
     }
 
     timeEnabledInfo() {
-        return new Content(this.timeEnabledKey, "Включено");
+        return new Content(this.timeEnabledKey, "Включено", null, null,
+            {enabled: true, timeCoefficient: 7000});
     }
 
     shortTimeInfo() {
-        return new Content(this.shortTimeKey, "Очень быстро");
+        return new Content(this.shortTimeKey, "Очень быстро", null, null,
+            {enabled: true, timeCoefficient: 3000});
     }
 
     shortestTimeInfo() {
-        return new Content(this.shortestTimeKey, "Молния");
+        return new Content(this.shortestTimeKey, "Молния", null, null,
+            {enabled: true, timeCoefficient: 1000});
     }
 
     resolveContentByKey(key) {

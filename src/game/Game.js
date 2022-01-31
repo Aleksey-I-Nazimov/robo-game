@@ -8,7 +8,6 @@ class Game {
         gameSoundModel,
         stepTimeoutMs
     ) {
-        this.timeout = timeoutMs;
         this._gameFieldModels = gameFieldModels;
         this._attemptsNumber = attemptsNumber;
         this._timeoutMs = timeoutMs;

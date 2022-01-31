@@ -1,3 +1,4 @@
+
 class SettingsModelProvider {
 
     constructor(settingsModel) {

@@ -1,5 +1,5 @@
-import Point from "./Point";
-import GameFieldModel from "./GameFieldModel";
+import Point from "../Point";
+import GameFieldModel from "../GameFieldModel";
 import * as React from "react";
 
 

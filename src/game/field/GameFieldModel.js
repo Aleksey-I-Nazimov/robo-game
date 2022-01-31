@@ -1,30 +1,6 @@
 import Point from "./Point";
 
 
-function getRandPoint(maxRow, maxColumn, previousPoint) {
-
-    if (maxRow === 0 && maxColumn === 0) {
-        return new Point(0, 0)
-    }
-
-    const newPointCreator = function () {
-        return new Point(getRandomInt(maxRow), getRandomInt(maxColumn));
-    };
-
-    let newPoint = newPointCreator();
-    if (previousPoint !== null) {
-        while (newPoint.isEqualTo(previousPoint)) {
-            newPoint = newPointCreator();
-        }
-    }
-
-    return newPoint;
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-}
-
 function makeArray(size) {
     const array = new Array(size);
     for (let i = 0; i < size; ++i) {
@@ -60,17 +36,6 @@ class GameFieldModel {
         this.#columnArray = makeArray(maxPoint.getColumn())
     }
 
-    static makeGameFieldModel(maxRow, maxCol, sourceImg, targetImg) {
-        const maxPoint = new Point(maxRow, maxCol);
-        const srcPoint = getRandPoint(maxPoint.getRow(), maxPoint.getColumn(), null);
-        return new GameFieldModel(
-            maxPoint,
-            srcPoint,
-            getRandPoint(maxPoint.getRow(), maxPoint.getColumn(), srcPoint),
-            sourceImg,
-            targetImg
-        );
-    }
 
     static modifyModel(sourcePoint, model) {
         return new GameFieldModel(model.getMaxPoint(), sourcePoint, model.getTargetPoint(),

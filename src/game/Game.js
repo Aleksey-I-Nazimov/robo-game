@@ -1,59 +1,40 @@
+
 class Game {
 
     constructor(
-        gameFieldMaxPoint,
-        levelNumber,
-        eachLevelTimeoutMs,
-        scoreThreshold,
-        gameType,
-        task,
-        imageList
+        gameFieldModels,
+        attemptsNumber,
+        timeoutMs,
+        gameSoundModel,
+        stepTimeoutMs
     ) {
-        this._eachLevelTimeout = eachLevelTimeout;
-        this._gameFieldMaxPoint = gameFieldMaxPoint;
-        this._levelNumber = levelNumber;
-        this._eachLevelTimeoutMs = eachLevelTimeoutMs;
-        this._scoreThreshold = scoreThreshold;
-        this._gameType = gameType;
-        this._stepTimeoutMs = 500;
-        this._task = task;
-        this._imageList = imageList;
+        this.timeout = timeoutMs;
+        this._gameFieldModels = gameFieldModels;
+        this._attemptsNumber = attemptsNumber;
+        this._timeoutMs = timeoutMs;
+        this._gameSoundModel = gameSoundModel;
+        this._stepTimeoutMs = stepTimeoutMs;
+
     }
 
-    get gameFieldMaxPoint() {
-        return this._gameFieldMaxPoint;
+    getGameFieldModels() {
+        return this._gameFieldModels;
     }
 
-    get levelNumber() {
-        return this._levelNumber;
+    getAttemptsNumber() {
+        return this._attemptsNumber;
     }
 
-    get eachLevelTimeoutMs() {
-        return this._eachLevelTimeoutMs;
+    getTimeoutMs() {
+        return this._timeoutMs;
     }
 
-    get scoreThreshold() {
-        return this._scoreThreshold;
+    getGameSoundModel() {
+        return this._gameSoundModel;
     }
 
-    get gameType() {
-        return this._gameType;
-    }
-
-    get eachLevelTimeout() {
-        return this._eachLevelTimeout;
-    }
-
-    get stepTimeoutMs() {
+    getStepTimeoutMs() {
         return this._stepTimeoutMs;
-    }
-
-    get task() {
-        return this._task;
-    }
-
-    get imageList() {
-        return this._imageList;
     }
 }
 

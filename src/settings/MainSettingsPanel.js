@@ -7,6 +7,7 @@ import SelectedDictionary from "./model/SelectedDictionary";
 import ComboBoxModel from "./model/ComboBoxModel";
 import CheckBoxModel from "./model/CheckBoxModel";
 import SpinnerModel from "./model/SpinnerModel";
+import ContentFactory from "../game/info/ContentFactory";
 
 
 class MainSettingsPanel extends React.Component {
@@ -24,6 +25,8 @@ class MainSettingsPanel extends React.Component {
         this.toRuleIndex = toRuleIndex;
         this.modelProvider = modelProvider;
         this.componentList = [];
+
+        this.contentFactory = new ContentFactory();
 
         this.gameTypeModel = this.#makeGameTypeModel();
         this.gameScenarioModel = this.#makeScenarioModel();
@@ -155,31 +158,50 @@ class MainSettingsPanel extends React.Component {
 
 
     #makeGameTypeModel() {
-        let creatingProg = new SelectedDictionary("createProgram", "Составить программу", true);
-        let checkingProg = new SelectedDictionary("CreateProgram", "Тест. Проверить программу", false);
-        return new ComboBoxModel("Тип игры", [creatingProg, checkingProg])
+        let creationInfo = this.contentFactory.createProgramTypeInfo();
+        let checkInfo = this.contentFactory.checkProgramTypeInfo();
+
+        return new ComboBoxModel("Тип игры", [
+                new SelectedDictionary(creationInfo.getKey(), creationInfo.getText(), true),
+                new SelectedDictionary(creationInfo.getKey(), creationInfo.getText(), false)
+            ]
+        )
     }
 
     #makeScenarioModel() {
-        let donkeyAndCabbage = new SelectedDictionary("donkeyAndCabbage", "Ослик и капуста", false);
-        let beeAndFlower = new SelectedDictionary("beeAndFlower", "Пчела и цветок", true);
-        let wolfAndRabbit = new SelectedDictionary("wolfAndRabbit", "Волк и заяц", false);
-        let catAndMouse = new SelectedDictionary("catAndMouse", "Кошка и мышка", false);
-        let rabbitAndCarrot = new SelectedDictionary("rabbitAndCarrot", "Заяц и морковь", false);
+        let donkeyAndCabbage = this.contentFactory.donkeyCabbageInfo();
+        let beeAndFlower = this.contentFactory.beeFlowerInfo();
+        let wolfAndRabbit = this.contentFactory.wolfRabbitInfo();
+        let catAndMouse = this.contentFactory.catMouseInfo();
+        let rabbitAndCarrot = this.contentFactory.rabbitCarrotInfo();
 
         return new ComboBoxModel("Сценарий игры",
-            [donkeyAndCabbage, beeAndFlower, wolfAndRabbit, catAndMouse, rabbitAndCarrot]);
+            [
+                new SelectedDictionary(donkeyAndCabbage.getKey(), donkeyAndCabbage.getText(), false),
+                new SelectedDictionary(beeAndFlower.getKey(), beeAndFlower.getText(), true),
+                new SelectedDictionary(wolfAndRabbit.getKey(), wolfAndRabbit.getText(), false),
+                new SelectedDictionary(catAndMouse.getKey(), catAndMouse.getText(), false),
+                new SelectedDictionary(rabbitAndCarrot.getKey(), rabbitAndCarrot.getText(), false)
+            ]
+        );
     }
 
     #makeDifficultyModel() {
-        let twoTwo = new SelectedDictionary("twoTwo", "2x2", false);
-        let fiveFive = new SelectedDictionary("fiveFive", "5x5", true);
-        let tenTen = new SelectedDictionary("tenTen", "10x10", false);
-        let fifteenTen = new SelectedDictionary("fifteenTen", "15x10", false);
-        let twentyFifteen = new SelectedDictionary("twentyFifteen", "25x15", false)
+        let twoTwo = this.contentFactory.twoTwoInfo();
+        let fiveFive = this.contentFactory.fiveFiveInfo();
+        let tenTen = this.contentFactory.tenTenInfo();
+        let fifteenTen = this.contentFactory.fifteenTenInfo();
+        let twentyFifteen = this.contentFactory.twentyFifteenInfo();
 
         return new ComboBoxModel("Сложность игры",
-            [twoTwo, fiveFive, tenTen, fifteenTen, twentyFifteen]);
+            [
+                new SelectedDictionary(twoTwo.getKey(), twoTwo.getText(), false),
+                new SelectedDictionary(fiveFive.getKey(), fiveFive.getText(), true),
+                new SelectedDictionary(tenTen.getKey(), tenTen.getText(), false),
+                new SelectedDictionary(fifteenTen.getKey(), fifteenTen.getText(), false),
+                new SelectedDictionary(twentyFifteen.getKey(), twentyFifteen.getText(), false)
+            ]
+        );
     }
 
     #makeLevelNumberModel() {
@@ -193,13 +215,20 @@ class MainSettingsPanel extends React.Component {
     }
 
     #makeEnableTimeControlModel() {
-        let disabled = new SelectedDictionary("disabled", "Выключено", true);
-        let enabled = new SelectedDictionary("enabled", "Включено", false);
-        let tooFast = new SelectedDictionary("tooFast", "Очень быстро", false);
-        let theFastest = new SelectedDictionary("theFastest", "Молния", false);
+
+        let disabled = this.contentFactory.timeDisabledInfo();
+        let enabled = this.contentFactory.timeEnabledInfo();
+        let tooFast = this.contentFactory.shortTimeInfo();
+        let theFastest = this.contentFactory.shortestTimeInfo();
 
         return new ComboBoxModel("Включить контроль времени",
-            [disabled, enabled, tooFast, theFastest]);
+            [
+                new SelectedDictionary(disabled.getKey(), disabled.getText(), true),
+                new SelectedDictionary(enabled.getKey(), enabled.getText(), false),
+                new SelectedDictionary(tooFast.getKey(), tooFast.getText(), false),
+                new SelectedDictionary(theFastest.getKey(), theFastest.getText(), false)
+            ]
+        );
     }
 
     #makeEnableSoundModel() {

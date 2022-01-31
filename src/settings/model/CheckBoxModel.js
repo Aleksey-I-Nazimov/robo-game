@@ -1,3 +1,4 @@
+
 class CheckBoxModel {
 
     constructor(label, checked) {

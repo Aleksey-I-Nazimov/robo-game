@@ -1,14 +1,14 @@
 import * as React from "react";
-import GameCounter from "./GameCounter";
-import GameFieldModel from "./GameFieldModel";
+import GameCounter from "./scoring/GameCounter";
+import GameFieldModel from "./field/GameFieldModel";
 import pilot from "../pilot.svg";
 import airPlan from "../airplan.svg";
-import StepGenerator from "./StepGenerator";
-import ProgramStepModel from "./ProgramStepModel";
-import ScoreField from "./ScoreField";
-import GameField from "./GameField";
-import ProgramButtonGroup from "./ProgramButtonGroup";
-import ProgramStepsViewer from "./ProgramStepsViewer";
+import StepGenerator from "./field/step/StepGenerator";
+import ProgramStepModel from "./field/step/ProgramStepModel";
+import ScoreField from "./scoring/ScoreField";
+import GameField from "./field/GameField";
+import ProgramButtonGroup from "./field/step/ProgramButtonGroup";
+import ProgramStepsViewer from "./field/step/ProgramStepsViewer";
 import LaunchButton from "../elements/LaunchButton";
 import ClickButton from "../elements/ClickButton";
 

@@ -1,3 +1,4 @@
+
 class Dictionary {
 
     constructor(key, value) {

@@ -1,3 +1,4 @@
+
 class ComboBoxModel {
 
     constructor(label, dictionaries) {

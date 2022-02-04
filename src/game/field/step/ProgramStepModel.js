@@ -43,6 +43,11 @@ class ProgramStepModel {
         }
     }
 
+    removeAll() {
+        this.stepArray = [];
+        this.#notify();
+    }
+
     #notify() {
         this.listeners.forEach(l => l.onChangedStepArray(this.stepArray));
     }

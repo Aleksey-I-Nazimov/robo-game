@@ -4,7 +4,6 @@ import ArrowCalculator from "./ArrowCalculator";
 class StepGenerator {
 
     constructor() {
-
         this.arrowCalculator = new ArrowCalculator();
         this.originalGameFieldModel = null;
         this.currentGameFieldModel = null;
@@ -12,7 +11,7 @@ class StepGenerator {
         this.timeout = 1;
 
         this.stepArray = [];
-        this.arrayPointer = -1;
+        this.arrayPointer = 0;
         this.listeners = [];
 
         this.#dropArrayPointer();
@@ -25,85 +24,58 @@ class StepGenerator {
 
     setOriginalGameFieldModel(originalGameFieldModel) {
         this.originalGameFieldModel = originalGameFieldModel;
-        this.#restartIfRunning();
+        this.#reset();
         return this;
     }
 
     setTimeout(timeout) {
         this.timeout = timeout;
-        this.#restartIfRunning();
-        return this;
-    }
-
-    isRunning() {
-        return this.executionId !== null;
-    }
-
-    switchOn() {
-        if (!this.isRunning()) {
-            const $ = this;
-            this.executionId = setInterval(function () {
-                $.#run($)
-            }, this.timeout);
-        }
-        return this;
-    }
-
-    switchOff() {
-        if (this.isRunning()) {
-            clearInterval(this.executionId);
-            this.executionId = null;
-            this.#dropArrayPointer();
-        }
+        this.#reset();
         return this;
     }
 
     onPushed(pushed) {
         if (pushed) {
-            this.switchOn();
+            if (!this.#reset()) {
+                this.#switchOn();
+            }
         } else {
-            this.switchOff();
+            this.#switchOff();
         }
     }
 
     onChangedStepArray(stepArray) {
         this.stepArray = stepArray;
-        this.#restartIfRunning();
+        this.#reset();
     }
 
-    #dropArrayPointer() {
-        this.arrayPointer = -1;
-        this.currentGameFieldModel = null;
-    }
 
     #run($) {
-        if ($.arrayPointer === -1) {
-            $.currentGameFieldModel = $.originalGameFieldModel;
-            $.#notifyOrigination($.currentGameFieldModel);
-            $.arrayPointer++;
+        if ($.stepArray.length > 0) {
+            if ($.arrayPointer < $.stepArray.length) {
+                const step = $.stepArray[$.arrayPointer];
+                const response = $.arrowCalculator.make(step, $.currentGameFieldModel);
 
-        } else if ($.arrayPointer < $.stepArray.length) {
-            const step = $.stepArray[$.arrayPointer];
-            const response = $.arrowCalculator.make(step, $.currentGameFieldModel);
-            if (response.isSuccess()) {
-                $.#notifyGeneration(response.getModel(), $.arrayPointer);
-                $.currentGameFieldModel = response.getModel();
+                if (response.isSuccess()) {
+                    $.#notifyGeneration(response.getModel(), $.arrayPointer);
+                    $.currentGameFieldModel = response.getModel();
+                } else {
+                    $.#notifyFailedGeneration(response.getModel(), $.arrayPointer);
+                }
+                $.arrayPointer++;
+
             } else {
-                $.#notifyFailedGeneration(response.getModel(), $.arrayPointer);
+                $.#notifyFinalization($.currentGameFieldModel, $.arrayPointer);
+                $.#switchOff();
             }
-            $.arrayPointer++;
-
-        } else {
-            $.#notifyFinalization($.currentGameFieldModel, this.arrayPointer);
-            $.switchOff();
         }
     }
 
     #notifyOrigination(model) {
         this.listeners.forEach(l => {
-                if (l.onOriginalModel !== undefined) {
-                    l.onOriginalModel(model)
-                }
+            if (l.onOriginalModel !== undefined) {
+                l.onOriginalModel(model)
+            }
             }
         );
     }
@@ -135,11 +107,46 @@ class StepGenerator {
         );
     }
 
-    #restartIfRunning() {
-        if (this.isRunning()) {
-            this.switchOff();
-            this.switchOn();
+    #reset() {
+        if (this.#isRunning()) {
+            this.#switchOff();
+            this.currentGameFieldModel = this.originalGameFieldModel;
+            this.#notifyOrigination(this.currentGameFieldModel);
+            this.#switchOn();
+            return true;
+        } else {
+            this.currentGameFieldModel = this.originalGameFieldModel;
+            this.#notifyOrigination(this.currentGameFieldModel);
+            return false;
         }
+    }
+
+    #switchOn() {
+        if (!this.#isRunning()) {
+            const $ = this;
+            this.executionId = setInterval(function () {
+                $.#run($)
+            }, this.timeout);
+        }
+        return this;
+    }
+
+    #switchOff() {
+        if (this.#isRunning()) {
+            clearInterval(this.executionId);
+            this.executionId = null;
+            this.#dropArrayPointer();
+        }
+        return this;
+    }
+
+    #isRunning() {
+        return this.executionId !== null;
+    }
+
+    #dropArrayPointer() {
+        this.arrayPointer = 0;
+        this.currentGameFieldModel = null;
     }
 
 }

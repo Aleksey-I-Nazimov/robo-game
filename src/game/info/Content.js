@@ -1,6 +1,6 @@
 class Content {
 
-    constructor(key, text, img, soun, techExtension) {
+    constructor(key, text, img, sound, techExtension) {
         this._key = key;
         this._text = text;
         this._img = img;

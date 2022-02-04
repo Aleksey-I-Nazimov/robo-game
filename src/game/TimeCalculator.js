@@ -14,3 +14,5 @@ class TimeCalculator {
     }
 
 }
+
+export default TimeCalculator

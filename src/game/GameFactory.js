@@ -2,6 +2,7 @@ import Game from "./Game";
 import GameFieldFactory from "./field/factory/GameFieldFactory";
 import ContentFactory from "./info/ContentFactory";
 import SoundModel from "./info/SoundModel";
+import TimeCalculator from "./TimeCalculator";
 
 
 class GameFactory {
@@ -35,9 +36,7 @@ class GameFactory {
         const difContent = this.contentFactory.resolveContentByKey(difficultyDict.getKey());
         const timeoutContent = this.contentFactory.resolveContentByKey(timeoutDict.getKey());
 
-        const timeout = this.timeCalculator.calculateFullTime(difContent, timeoutContent);
-
-        return timeout;
+        return this.timeCalculator.calculateFullTime(difContent, timeoutContent);
     }
 
 
@@ -46,3 +45,5 @@ class GameFactory {
     }
 
 }
+
+export default GameFactory

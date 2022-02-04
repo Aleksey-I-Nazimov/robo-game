@@ -1,4 +1,11 @@
 import * as React from "react";
+import ClickButton from "./elements/ClickButton";
+import SettingsModelProvider from "./settings/model/SettingsModelProvider";
+import SettingsModel from "./settings/model/SettingsModel";
+import MainSettingsPanel from "./settings/MainSettingsPanel";
+import RobotGamePanel from "./game/RobotGamePanel";
+import GameOverPanel from "./results/GameOverPanel";
+import RulesPanel from "./rules/RulesPanel";
 
 
 class GamePanel extends React.Component {
@@ -6,44 +13,91 @@ class GamePanel extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = this.#makeState(0);
-        this.panels = props.panels;
+        this.rulesId = "rulesId";
+        this.settingsId = "settingsId";
+        this.gameId = "gameId";
+        this.gameOverId = "gameOverId";
 
-        this.panels.forEach(p => p.addListener(this));
+        this.state = {actionId: this.rulesId};
+
+        this.modelProvider = new SettingsModelProvider(new SettingsModel());
+        this.modelProvider.addListener({
+            onChangedSettings: function (model) {
+                console.log(model.toString());
+            }
+        });
     }
 
-    onNext(index) {
-        const p = this.#getState() + parseInt(index);
-        this.setState(this.#makeState(p));
-    }
+    onAction(actionId) {
+        this.setState({actionId: actionId});
+    };
 
-    onPrev(index) {
-        const p = this.#getState() - parseInt(index);
-        this.setState(this.#makeState(p));
-    }
+    render() {
+        const id = this.state.actionId;
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const panel = this.#getPanel();
-        if (panel.onSwitchingPanel !== undefined) {
-            panel.onSwitchingPanel();
+        if (id === this.rulesId) {
+            return this.#renderRules();
+
+        } else if (id === this.settingsId) {
+            return this.#renderSettings();
+
+        } else if (id === this.gameId) {
+            return this.#renderGame();
+
+        } else if (id === this.gameOverId) {
+            return this.#renderGameOver();
+
+        } else {
+            return <div/>
         }
     }
 
-    render() {
-        return this.#getPanel().render();
+    #renderRules() {
+        return (
+            <div>
+                <RulesPanel/>
+                <div>
+                    <ClickButton text={"Поехали к настройкам"} listeners={[this]} actionId={this.settingsId}/>
+                </div>
+            </div>
+        );
     }
 
-    #makeState(number) {
-        return {panel: parseInt(number)};
+    #renderSettings() {
+        return (
+            <div>
+                <MainSettingsPanel settingsModelProvider={this.modelProvider}/>
+                <div>
+                    <ClickButton text={"Читать правила"} listeners={[this]} actionId={this.rulesId}/>
+                    <ClickButton text={"Вперед к игре"} listeners={[this]} actionId={this.gameId}/>
+                </div>
+            </div>
+        );
     }
 
-    #getState() {
-        return this.state.panel;
+    #renderGame() {
+        return (
+            <div>
+                <RobotGamePanel settingsModelProvider={this.modelProvider} gameOverCallback={null}/>
+                <div>
+                    <ClickButton text={"К настройкам"} listeners={[this]} actionId={this.settingsId}/>
+                    <ClickButton text={"Завершить"} listeners={[this]} actionId={this.gameOverId}/>
+                </div>
+            </div>
+        );
     }
 
-    #getPanel() {
-        return this.panels[this.#getState()];
+    #renderGameOver() {
+        return (
+            <div>
+                <GameOverPanel/>
+                <div>
+                    <ClickButton text={"Попробовать еще"} listeners={[this]} actionId={this.settingsId}/>
+                </div>
+            </div>
+        );
     }
+
 
 }
 

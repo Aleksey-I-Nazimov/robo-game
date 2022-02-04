@@ -2,7 +2,6 @@ import * as React from "react";
 import ComboBox from "./elements/ComboBox";
 import Spinner from "./elements/Spinner";
 import CheckBox from "./elements/CheckBox";
-import ClickButton from "../elements/ClickButton";
 import SelectedDictionary from "./model/SelectedDictionary";
 import ComboBoxModel from "./model/ComboBoxModel";
 import CheckBoxModel from "./model/CheckBoxModel";
@@ -13,17 +12,11 @@ import ContentFactory from "../game/info/ContentFactory";
 class MainSettingsPanel extends React.Component {
 
 
-    constructor(toGameIndex, toRuleIndex, modelProvider) {
+    constructor(props) {
 
-        super();
+        super(props);
 
-        this.TO_GAME = "ToGame";
-        this.TO_RULES = "ToRules";
-
-        this.listeners = [];
-        this.toGameIndex = toGameIndex;
-        this.toRuleIndex = toRuleIndex;
-        this.modelProvider = modelProvider;
+        this.modelProvider = props.settingsModelProvider;
         this.componentList = [];
 
         this.contentFactory = new ContentFactory();
@@ -44,18 +37,6 @@ class MainSettingsPanel extends React.Component {
         this.onChangedAttempts = this.onChangedAttempts.bind(this);
         this.onChangedTimeControl = this.onChangedTimeControl.bind(this);
         this.onEnabledSound = this.onEnabledSound.bind(this);
-    }
-
-    addListener(listener) {
-        this.listeners.push(listener);
-    }
-
-    onAction(actionId) {
-        if (actionId === this.TO_GAME) {
-            this.listeners.forEach(l => l.onNext(this.toGameIndex));
-        } else if (actionId === this.TO_RULES) {
-            this.listeners.forEach(l => l.onPrev(this.toRuleIndex));
-        }
     }
 
     onSwitchingPanel() {
@@ -101,58 +82,52 @@ class MainSettingsPanel extends React.Component {
     render() {
 
         return (
-            <div>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>{this.gameTypeModel.getLabel()}</td>
-                        <td><ComboBox id={"gameType"} handler={this.onChangedGameType}
-                                      model={this.gameTypeModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>{this.gameScenarioModel.getLabel()}</td>
-                        <td><ComboBox id={"gameScenario"} handler={this.onChangedGameScenario}
-                                      model={this.gameScenarioModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>3.</td>
-                        <td>{this.difficultyModel.getLabel()}</td>
-                        <td><ComboBox id={"gameDifficulty"} handler={this.onDifficulty}
-                                      model={this.difficultyModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>4.</td>
-                        <td>{this.levelNumberModel.getLabel()}</td>
-                        <td><Spinner id={"levelNumber"} handler={this.onChangedLevelNumber}
-                                     model={this.levelNumberModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>5.</td>
-                        <td>{this.attemptsNumberModel.getLabel()}</td>
-                        <td><Spinner id={"attemptsNumber"} handler={this.onChangedAttempts}
-                                     model={this.attemptsNumberModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>6.</td>
-                        <td>{this.timeControlModel.getLabel()}</td>
-                        <td><ComboBox id={"timeControl"} handler={this.onChangedTimeControl}
-                                      model={this.timeControlModel} componentList={this.componentList}/></td>
-                    </tr>
-                    <tr>
-                        <td>7.</td>
-                        <td>{this.enableSoundModel.getLabel()}</td>
-                        <td><CheckBox id={"soundSwitcher"} handler={this.onEnabledSound}
-                                      model={this.enableSoundModel} componentList={this.componentList}/></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div>
-                    <ClickButton text={"Читать правила"} listeners={[this]} actionId={this.TO_RULES}/>
-                    <ClickButton text={"Вперед к игре"} listeners={[this]} actionId={this.TO_GAME}/>
-                </div>
-            </div>
+            <table>
+                <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>{this.gameTypeModel.getLabel()}</td>
+                    <td><ComboBox id={"gameType"} handler={this.onChangedGameType}
+                                  model={this.gameTypeModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>{this.gameScenarioModel.getLabel()}</td>
+                    <td><ComboBox id={"gameScenario"} handler={this.onChangedGameScenario}
+                                  model={this.gameScenarioModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>{this.difficultyModel.getLabel()}</td>
+                    <td><ComboBox id={"gameDifficulty"} handler={this.onDifficulty}
+                                  model={this.difficultyModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>{this.levelNumberModel.getLabel()}</td>
+                    <td><Spinner id={"levelNumber"} handler={this.onChangedLevelNumber}
+                                 model={this.levelNumberModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>{this.attemptsNumberModel.getLabel()}</td>
+                    <td><Spinner id={"attemptsNumber"} handler={this.onChangedAttempts}
+                                 model={this.attemptsNumberModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>{this.timeControlModel.getLabel()}</td>
+                    <td><ComboBox id={"timeControl"} handler={this.onChangedTimeControl}
+                                  model={this.timeControlModel} componentList={this.componentList}/></td>
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>{this.enableSoundModel.getLabel()}</td>
+                    <td><CheckBox id={"soundSwitcher"} handler={this.onEnabledSound}
+                                  model={this.enableSoundModel} componentList={this.componentList}/></td>
+                </tr>
+                </tbody>
+            </table>
         );
     }
 

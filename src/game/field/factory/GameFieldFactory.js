@@ -22,7 +22,7 @@ class GameFieldFactory {
         const gameFields = new Array(levelNumber);
 
         for (let i = 0; i < levelNumber; ++i) {
-            gameFields.push(GameFieldFactory.makeGameField(i, srcImg, targetImg, point));
+            gameFields[i] = GameFieldFactory.makeGameField(i, srcImg, targetImg, point);
         }
 
         return gameFields;

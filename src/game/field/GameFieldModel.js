@@ -70,6 +70,10 @@ class GameFieldModel {
         return this.#columnArray;
     }
 
+    compareScrAndTarget() {
+        return this.#sourcePoint.isEqualTo(this.#targetPoint)
+    }
+
 }
 
 export default GameFieldModel

@@ -24,24 +24,6 @@ class ContentFactory {
         this.shortTimeKey = "shortTimeKey";
         this.shortestTimeKey = "shortestTimeKey";
 
-        this.infoMap = new Map();
-
-        this.infoMap.set(this.createProgKey, this.createProgramTypeInfo);
-        this.infoMap.set(this.checkProgKey, this.checkProgramTypeInfo);
-        this.infoMap.set(this.donkeyCabbageKey, this.donkeyCabbageInfo);
-        this.infoMap.set(this.beeFlowerKey, this.beeFlowerInfo);
-        this.infoMap.set(this.wolfRabbitKey, this.wolfRabbitInfo);
-        this.infoMap.set(this.catMouseKey, this.catMouseInfo);
-        this.infoMap.set(this.rabbitCarrotKey, this.rabbitCarrotInfo);
-        this.infoMap.set(this.twoTwoKey, this.twoTwoInfo);
-        this.infoMap.set(this.fiveFiveKey, this.fiveFiveInfo);
-        this.infoMap.set(this.tenTenKey, this.tenTenInfo);
-        this.infoMap.set(this.fifteenTenKey, this.fifteenTenInfo);
-        this.infoMap.set(this.twentyFifteenKey, this.twentyFifteenInfo);
-        this.infoMap.set(this.timeDisabledKey, this.timeDisabledInfo);
-        this.infoMap.set(this.timeEnabledKey, this.timeEnabledInfo);
-        this.infoMap.set(this.shortTimeKey, this.shortTimeInfo);
-        this.infoMap.set(this.shortestTimeKey, this.shortestTimeInfo);
     }
 
 
@@ -143,7 +125,24 @@ class ContentFactory {
     }
 
     resolveContentByKey(key) {
-        return this.infoMap.get(key)();
+
+        if (key === this.createProgKey) return this.createProgramTypeInfo();
+        else if (key === this.checkProgKey) return this.checkProgramTypeInfo();
+        else if (key === this.donkeyCabbageKey) return this.donkeyCabbageInfo();
+        else if (key === this.beeFlowerKey) return this.beeFlowerInfo();
+        else if (key === this.wolfRabbitKey) return this.wolfRabbitInfo();
+        else if (key === this.catMouseKey) return this.catMouseInfo();
+        else if (key === this.rabbitCarrotKey) return this.rabbitCarrotInfo();
+        else if (key === this.twoTwoKey) return this.twoTwoInfo();
+        else if (key === this.fiveFiveKey) return this.fiveFiveInfo();
+        else if (key === this.tenTenKey) return this.tenTenInfo();
+        else if (key === this.fifteenTenKey) return this.fifteenTenInfo();
+        else if (key === this.twentyFifteenKey) return this.twentyFifteenInfo();
+        else if (key === this.timeDisabledKey) return this.timeDisabledInfo();
+        else if (key === this.timeEnabledKey) return this.timeEnabledInfo();
+        else if (key === this.shortTimeKey) return this.shortTimeInfo();
+        else if (key === this.shortestTimeKey) return this.shortestTimeInfo();
+        else throw "Unknown key=" + key;
     }
 
 }

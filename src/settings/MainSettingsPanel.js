@@ -39,9 +39,6 @@ class MainSettingsPanel extends React.Component {
         this.onEnabledSound = this.onEnabledSound.bind(this);
     }
 
-    onSwitchingPanel() {
-        this.componentList.forEach(c => c.onChange());
-    }
 
     onChangedGameType(gameTypeDictionary) {
         const model = this.modelProvider.getSettingsModel();
@@ -78,6 +75,13 @@ class MainSettingsPanel extends React.Component {
         this.modelProvider.acceptNewSettingsModel(model.setSoundControl(enabled))
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.componentList.forEach(c => c.onChange());
+    }
+
+    componentDidMount() {
+        this.componentList.forEach(c => c.onChange());
+    }
 
     render() {
 

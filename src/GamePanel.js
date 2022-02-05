@@ -32,6 +32,10 @@ class GamePanel extends React.Component {
         this.setState({actionId: actionId});
     };
 
+    onGameOver() {
+        this.onAction(this.gameOverId);
+    }
+
     render() {
         const id = this.state.actionId;
 
@@ -57,7 +61,8 @@ class GamePanel extends React.Component {
             <div>
                 <RulesPanel/>
                 <div>
-                    <ClickButton text={"Поехали к настройкам"} listeners={[this]} actionId={this.settingsId}/>
+                    <ClickButton key={"goToSettingsButton"}
+                                 text={"Поехали к настройкам"} listeners={[this]} actionId={this.settingsId}/>
                 </div>
             </div>
         );
@@ -68,8 +73,10 @@ class GamePanel extends React.Component {
             <div>
                 <MainSettingsPanel settingsModelProvider={this.modelProvider}/>
                 <div>
-                    <ClickButton text={"Читать правила"} listeners={[this]} actionId={this.rulesId}/>
-                    <ClickButton text={"Вперед к игре"} listeners={[this]} actionId={this.gameId}/>
+                    <ClickButton key={"goToRulesButton"}
+                                 text={"Читать правила"} listeners={[this]} actionId={this.rulesId}/>
+                    <ClickButton key={"goToGameButton"}
+                                 text={"Вперед к игре"} listeners={[this]} actionId={this.gameId}/>
                 </div>
             </div>
         );
@@ -78,10 +85,12 @@ class GamePanel extends React.Component {
     #renderGame() {
         return (
             <div>
-                <RobotGamePanel settingsModelProvider={this.modelProvider} gameOverCallback={null}/>
+                <RobotGamePanel settingsModelProvider={this.modelProvider} gameOverCallback={this}/>
                 <div>
-                    <ClickButton text={"К настройкам"} listeners={[this]} actionId={this.settingsId}/>
-                    <ClickButton text={"Завершить"} listeners={[this]} actionId={this.gameOverId}/>
+                    <ClickButton key={"goToSettingsButton2"}
+                                 text={"К настройкам"} listeners={[this]} actionId={this.settingsId}/>
+                    <ClickButton key={"goToGameOverButton"}
+                                 text={"Завершить"} listeners={[this]} actionId={this.gameOverId}/>
                 </div>
             </div>
         );
@@ -92,7 +101,8 @@ class GamePanel extends React.Component {
             <div>
                 <GameOverPanel/>
                 <div>
-                    <ClickButton text={"Попробовать еще"} listeners={[this]} actionId={this.settingsId}/>
+                    <ClickButton key={"goToSettingsButton3"}
+                                 text={"Попробовать еще"} listeners={[this]} actionId={this.settingsId}/>
                 </div>
             </div>
         );

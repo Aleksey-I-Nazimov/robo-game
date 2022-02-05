@@ -17,59 +17,46 @@ class RobotGamePanel extends React.Component {
         super(props);
         this.settingsModelProvider = props.settingsModelProvider;
         this.gameOverCallback = props.gameOverCallback;
-
     }
-
-    // updateModel(gameFieldModel) {
-    //     this.updateFunction(gameFieldModel);
-    // }
 
     render() {
 
         const game = new GameFactory(this.settingsModelProvider).makeGame();
-
         const gameManager = new GameManager(game, this.gameOverCallback);
+        const originalGameModel = gameManager.getOriginalGameFieldModel();
 
         const gameCounter = new GameCounter()
             .addListener(gameManager);
-
         const stepGenerator = new StepGenerator()
-            .addListener(gameCounter)
+            .setOriginalGameFieldModel(originalGameModel)
+            .setTimeout(gameManager.getStepTimeoutMs())
             .addListener(gameManager)
-            .setOriginalGameFieldModel(gameManager.getOriginalGameFieldModel())
-            .setTimeout();
-
+            .addListener(gameCounter);
         const stepModel = new ProgramStepModel()
             .addListener(stepGenerator);
 
-        // this.updateFunction = function (newModel) {
-        //     stepModel.removeAll();
-        //     stepGenerator.setOriginalGameFieldModel(newModel);
-        // };
+        gameManager.addListener(stepGenerator);
 
-        return (
+        return <div>
+            <h2>Задание для игры</h2>
             <div>
-                <h2>Задание для игры</h2>
-                <div>
-                    <ScoreField scoreModel={gameCounter}/>
-                </div>
-                <div>
-                    <GameField gameFieldModel={gameManager.getOriginalGameFieldModel()} stepGenerator={stepGenerator}/>
-                </div>
-                <div>
-                    Тестовое задание для проверки
-                </div>
-                <div>
-                    <ProgramButtonGroup stepModel={stepModel}/>
-                    <ProgramStepsViewer stepModel={stepModel}/>
-                </div>
-                <div>
-                    <LaunchButton listeners={[stepGenerator]} stepGenerator={stepGenerator}/>
-                </div>
+                <ScoreField scoreModel={gameCounter}/>
             </div>
-        );
+            <div>
+                <GameField gameFieldModel={originalGameModel} stepGenerator={stepGenerator}/>
+            </div>
+            <div>
+                Тестовое задание для проверки
+            </div>
+            <div>
+                <ProgramButtonGroup stepModel={stepModel}/>
+                <ProgramStepsViewer stepModel={stepModel}/>
+            </div>
+            <div>
+                <LaunchButton listeners={[stepGenerator]} stepGenerator={stepGenerator}/>
+            </div>
+        </div>;
     }
-
 }
 
 export default RobotGamePanel

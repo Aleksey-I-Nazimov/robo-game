@@ -12,6 +12,7 @@ class GameCounter {
 
     addListener(listener) {
         this.listeners.push(listener);
+        return this;
     }
 
     onOriginalModel(model) {

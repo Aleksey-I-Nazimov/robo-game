@@ -36,6 +36,7 @@ class RobotGamePanel extends React.Component {
             .addListener(stepGenerator);
 
         gameManager.addListener(stepGenerator);
+        gameManager.addListener(stepModel);
 
         return <div>
             <h2>Задание для игры</h2>

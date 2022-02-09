@@ -6,16 +6,21 @@ class ScoreField extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {scores: 0};
+        this.state = this.#makeState(0);
         props.scoreModel.addListener(this);
     }
 
     onScoring(overallScores) {
-        this.setState({scores: overallScores});
+        console.log("ScoredField: Changing score field state. Overall=", overallScores);
+        this.setState(this.#makeState(overallScores));
     }
 
     render() {
         return <div>Очки: {this.state.scores}</div>
+    }
+
+    #makeState(scores) {
+        return {scores: scores};
     }
 
 }

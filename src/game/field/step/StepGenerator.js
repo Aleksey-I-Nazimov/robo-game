@@ -23,18 +23,21 @@ class StepGenerator {
     }
 
     setOriginalGameFieldModel(originalGameFieldModel) {
+        console.log("StepGenerator: Setting the original game field model: ", originalGameFieldModel);
         this.originalGameFieldModel = originalGameFieldModel;
         this.#reset();
         return this;
     }
 
     setTimeout(timeout) {
+        console.log("StepGenerator: Setting the timeout value (ms): ", timeout);
         this.timeout = timeout;
         this.#reset();
         return this;
     }
 
     onPushed(pushed) {
+        console.log("StepGenerator: Pushing start generation: ", pushed);
         if (pushed) {
             if (!this.#reset()) {
                 this.#switchOn();
@@ -45,6 +48,7 @@ class StepGenerator {
     }
 
     onChangedStepArray(stepArray) {
+        console.log("StepGenerator: The new step array: ", stepArray);
         this.stepArray = stepArray;
         this.#reset();
     }
@@ -72,15 +76,17 @@ class StepGenerator {
     }
 
     #notifyOrigination(model) {
+        console.log("StepGenerator: Notifying origination: ", model);
         this.listeners.forEach(l => {
-            if (l.onOriginalModel !== undefined) {
-                l.onOriginalModel(model)
-            }
+                if (l.onOriginalModel !== undefined) {
+                    l.onOriginalModel(model)
+                }
             }
         );
     }
 
     #notifyGeneration(model, pointer) {
+        console.log("StepGenerator: Notifying the new generated step: ", model, pointer);
         this.listeners.forEach(l => {
                 if (l.onGeneratedModel !== undefined) {
                     l.onGeneratedModel(model, pointer)
@@ -90,6 +96,7 @@ class StepGenerator {
     }
 
     #notifyFailedGeneration(model, pointer) {
+        console.log("StepGenerator: Notifying the new failed step: ", model, pointer);
         this.listeners.forEach(l => {
                 if (l.onFailedGeneration !== undefined) {
                     l.onFailedGeneration(model, pointer)
@@ -99,6 +106,7 @@ class StepGenerator {
     }
 
     #notifyFinalization(model, pointer) {
+        console.log("StepGenerator: Notifying the final step: ", model, pointer);
         this.listeners.forEach(l => {
                 if (l.onFinalizedGeneration !== undefined) {
                     l.onFinalizedGeneration(model, pointer)
@@ -108,13 +116,17 @@ class StepGenerator {
     }
 
     #reset() {
+
         if (this.#isRunning()) {
+            console.trace("StepGenerator: Resetting started generator");
             this.#switchOff();
             this.currentGameFieldModel = this.originalGameFieldModel;
             this.#notifyOrigination(this.currentGameFieldModel);
             this.#switchOn();
             return true;
+
         } else {
+            console.trace("StepGenerator: Resetting stopped generator");
             this.currentGameFieldModel = this.originalGameFieldModel;
             this.#notifyOrigination(this.currentGameFieldModel);
             return false;
@@ -127,6 +139,7 @@ class StepGenerator {
             this.executionId = setInterval(function () {
                 $.#run($)
             }, this.timeout);
+            console.trace("StepGenerator: Step generator was successfully launched: executionId=", this.executionId);
         }
         return this;
     }
@@ -136,6 +149,7 @@ class StepGenerator {
             clearInterval(this.executionId);
             this.executionId = null;
             this.#dropArrayPointer();
+            console.trace("StepGenerator: Step generator was successfully stopped");
         }
         return this;
     }

@@ -31,15 +31,14 @@ class GameCounter {
     }
 
     onFinalizedGeneration(model, counter) {
-        const srcPoint = model.getSourcePoint();
-        const targetPoint = model.getTargetPoint();
-        if (srcPoint.isEqualTo(targetPoint)) {
+        if (model.compareScrAndTarget()) {
             this.scoring.makeBonus();
             this.#notify();
         }
     }
 
     #notify() {
+        console.log("GameCounter: Notifying scores: ", this.scoring);
         this.listeners.forEach(l => l.onScoring(this.scoring.getOverall()));
     }
 

@@ -48,6 +48,10 @@ class ProgramStepModel {
         this.#notify();
     }
 
+    setOriginalGameFieldModel() {
+        this.removeAll();
+    }
+
     #notify() {
         this.listeners.forEach(l => l.onChangedStepArray(this.stepArray));
     }

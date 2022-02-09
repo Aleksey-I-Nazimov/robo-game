@@ -60,10 +60,13 @@ class GameManager {
      * @param {Number} overallScores
      */
     onScoring(overallScores) {
+
         if (this.gameFieldModelCnt < this.scoreArray.length) {
+            console.log("GameManager: Accepting scores = ", overallScores);
             this.scoreArray[this.gameFieldModelCnt] += overallScores;
+
         } else {
-            console.log("The game management was not initialized");
+            console.log("GameManager: The game management was not initialized");
         }
     }
 
@@ -74,20 +77,34 @@ class GameManager {
      */
     onFinalizedGeneration(model, counter) {
 
-        if (model.compareScrAndTarget()) {
-            if (this.#wasItTheFinalModel()) {
-                this.#notifyGameOver(true)
+        const $ = this;
 
-            } else {
-                this.gameFieldModelCnt += 1;
-                this.#notifyOriginalModel()
+        /*
+        This method cannot be executed directly. It has to be executed at the next step.
+        Finalized generation has to notify all subscribed listeners.
+        This subscription executes changing to the new game model. That is why these changes
+        can influence on the next subscribers.
+         */
+        setTimeout(() => {
+                if (model.compareScrAndTarget()) {
+                    if ($.#wasItTheFinalModel()) {
+                        console.log("GameManager: Successful game over: ", model);
+                        $.#notifyGameOver(true)
+
+                    } else {
+                        $.gameFieldModelCnt += 1;
+                        console.log("GameManager: The game was completed. Model counter was incremented: ", $.gameFieldModelCnt);
+                        $.#notifyOriginalModel()
+                    }
+                } else {
+                    $.firedAttempts += 1;
+                    console.log("GameManager: Game goal was not achieved. Fired attempts: ", $.firedAttempts);
+                    if (!$.#hasAnyAttempts()) {
+                        $.#notifyGameOver(false);
+                    }
+                }
             }
-        } else {
-            this.firedAttempts += 1;
-            if (!this.#hasAnyAttempts()) {
-                this.#notifyGameOver(false);
-            }
-        }
+        );
     }
 
 
@@ -98,25 +115,32 @@ class GameManager {
     #initManagement(model) {
 
         if (this.#isItTheNewModel()) {
+            console.log("GameManager: Initializing the new model");
+
             this.scoreArray.push(0);
             this.firedAttempts = 0;
             this.#notifyNewModelAttempt();
 
         } else {
+            console.log("GameManager: Restarting the new attempt of the existed model");
+
             this.scoreArray[this.gameFieldModelCnt] = 0;
             this.#notifyNewAttempt();
         }
+
     }
 
     #notifyNewModelAttempt() {
-        console.log("The new model #" + this.gameFieldModelCnt);
+        console.log("GameManager: The new model #" + this.gameFieldModelCnt);
     }
 
     #notifyNewAttempt() {
-        console.log("The new attempt #" + this.firedAttempts + " for model #" + this.gameFieldModelCnt);
+        console.log("GameManager: The new attempt #" + this.firedAttempts + " for model #" + this.gameFieldModelCnt);
     }
 
     #notifyGameOver(success) {
+        console.log("GameManager: Game over: success=", success);
+
         this.listeners.forEach(l => {
             if (l.onGameOver !== undefined) {
                 l.onGameOver()
@@ -126,6 +150,7 @@ class GameManager {
     }
 
     #notifyOriginalModel() {
+        console.log("GameManager: Notification of the game field model. Counter=", this.gameFieldModelCnt);
         const newModel = this.game.getGameFieldModels()[this.gameFieldModelCnt];
 
         this.listeners.forEach(l => {

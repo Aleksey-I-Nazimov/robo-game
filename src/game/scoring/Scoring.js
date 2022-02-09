@@ -34,6 +34,10 @@ class Scoring {
         return this.positive - this.negative;
     }
 
+    toString() {
+        return JSON.stringify(this);
+    }
+
 }
 
 export default Scoring;

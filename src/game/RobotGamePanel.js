@@ -9,6 +9,7 @@ import ProgramStepsViewer from "./field/step/ProgramStepsViewer";
 import LaunchButton from "../elements/LaunchButton";
 import GameFactory from "./GameFactory";
 import GameManager from "./GameManager";
+import TimeManager from "./TimeManager";
 
 
 class RobotGamePanel extends React.Component {
@@ -23,6 +24,7 @@ class RobotGamePanel extends React.Component {
 
         const game = new GameFactory(this.settingsModelProvider).makeGame();
         const gameManager = new GameManager(game, this.gameOverCallback);
+        const timeManager = new TimeManager(game, this.gameOverCallback).setOriginalGameFieldModel();
         const originalGameModel = gameManager.getOriginalGameFieldModel();
 
         const gameCounter = new GameCounter()
@@ -37,11 +39,12 @@ class RobotGamePanel extends React.Component {
 
         gameManager.addListener(stepGenerator);
         gameManager.addListener(stepModel);
+        gameManager.addListener(timeManager);
 
         return <div>
             <h2>Задание для игры</h2>
             <div>
-                <ScoreField scoreModel={gameCounter}/>
+                <ScoreField scoreModel={gameCounter} timeManager={timeManager}/>
             </div>
             <div>
                 <GameField gameFieldModel={originalGameModel} stepGenerator={stepGenerator}/>

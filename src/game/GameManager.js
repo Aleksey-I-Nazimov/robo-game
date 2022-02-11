@@ -130,6 +130,7 @@ class GameManager {
 
     }
 
+
     #notifyNewModelAttempt() {
         console.log("GameManager: The new model #" + this.gameFieldModelCnt);
     }
@@ -146,7 +147,7 @@ class GameManager {
                 l.onGameOver()
             }
         });
-        this.gameOverCallback.onGameOver();
+        this.gameOverCallback.onGameOver(success);
     }
 
     #notifyOriginalModel() {

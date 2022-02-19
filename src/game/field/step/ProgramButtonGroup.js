@@ -1,5 +1,6 @@
 import * as React from "react";
 import ArrowCalculator from "./ArrowCalculator";
+import ClickButton from "../../../elements/ClickButton";
 
 
 class ProgramButtonGroup extends React.Component {
@@ -14,8 +15,6 @@ class ProgramButtonGroup extends React.Component {
         this.handleLeft = this.handleLeft.bind(this);
         this.handleUp = this.handleUp.bind(this);
         this.handleRight = this.handleRight.bind(this);
-
-        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -56,7 +55,7 @@ class ProgramButtonGroup extends React.Component {
         this.stepModel.addRight();
     }
 
-    handleRemove() {
+    onAction(actionId) {
         this.stepModel.removeLast();
     }
 
@@ -78,9 +77,7 @@ class ProgramButtonGroup extends React.Component {
             <img src={this.arrowCalculator.getRightImg()} id={this.arrowCalculator.getRight()}
                  onClick={this.handleRight}
                  onTouchStart={this.handleRight} alt={"The right button"}/>
-            <div onClick={this.handleRemove}
-                 onTouchStart={this.handleRemove}>Удалить шаг
-            </div>
+            <ClickButton text={"Удалить шаг"} actionId={"Remove step"} listeners={[this]}/>
         </div>
     }
 

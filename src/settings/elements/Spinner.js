@@ -7,6 +7,7 @@ class Spinner extends React.Component {
         super(props);
 
         this.id = props.id;
+        this.labelId = "label" + props.id;
         this.handler = props.handler;
         this.state = this.#makeState(props.model);
 
@@ -20,13 +21,21 @@ class Spinner extends React.Component {
     onChange() {
         const element = window.document.getElementById(this.id);
         const value = this.state.model.findValue(element);
+        const labelElement = window.document.getElementById(this.labelId);
         this.handler(value);
+        labelElement.innerText = value;
     }
 
     render() {
         const model = this.state.model;
-        return (<input id={this.id} onChange={this.onChange}
-                       type={"range"} min={model.getMin()} max={model.getMax()} step={model.getStep()}/>);
+        const value = model.getMax();
+        return (
+            <div>
+                <p id={this.labelId}>{value}</p>
+                <input id={this.id} onChange={this.onChange}
+                       type={"range"} min={model.getMin()} max={value} step={model.getStep()} defaultValue={value}/>
+            </div>
+        );
     }
 
     #makeState(model) {

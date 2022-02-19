@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./RulesPanel.css"
 
 
 class RulesPanel extends React.Component {
@@ -13,10 +14,10 @@ class RulesPanel extends React.Component {
             <table>
                 <tbody>
                 <tr>
-                    <td>Приветствуем в игре с элементами программирования</td>
+                    <td className="rulesHeader">Приветствуем в игре с элементами программирования</td>
                 </tr>
                 <tr>
-                    <td>Немного о правилах и игре. Игроку будут предлагаться задания,
+                    <td className="rulesText">Немного о правилах и игре. Игроку будут предлагаться задания,
                         суть которых - составить программу действия для своего любимого персонажа.
                         По правилам игры вам необходимо построить последовательность стрелок,
                         чтобы ваш герой двигаясь согласно каждой из них достиг цели. Если вы выйдете
@@ -28,7 +29,6 @@ class RulesPanel extends React.Component {
                     </td>
                 </tr>
                 </tbody>
-
             </table>
         );
     }

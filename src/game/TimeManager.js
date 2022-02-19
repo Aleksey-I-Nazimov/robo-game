@@ -26,12 +26,16 @@ class TimeManager {
         return this;
     }
 
+    stopTimer() {
+        this.#stopTimeoutController(this, false);
+    }
+
     #startTimeControl() {
         const timeout = this.game.getTimeoutMs();
         const $ = this;
 
         if (!$.#isStarted() && timeout > 0) {
-            console.log("TimeManager: Starting time control");
+            console.log("TimeManager: Starting time control. Timeout =", timeout);
             $.timeoutControllerId = setInterval(
                 () => {
 
@@ -52,7 +56,7 @@ class TimeManager {
 
         if ($.#isStarted()) {
 
-            console.log("TimeManager: Time (ms): ", $.gameTimeMs, $.game.getTimeoutMs());
+            console.log("TimeManager: Stop event. Time (ms): ", $.gameTimeMs, $.game.getTimeoutMs());
             $.#clear();
             $.#notifyTimeValue();
 

@@ -55,7 +55,6 @@ class StepGenerator {
 
 
     #run($) {
-        if ($.stepArray.length > 0) {
             if ($.arrayPointer < $.stepArray.length) {
                 const step = $.stepArray[$.arrayPointer];
                 const response = $.arrowCalculator.make(step, $.currentGameFieldModel);
@@ -72,7 +71,6 @@ class StepGenerator {
                 $.#notifyFinalization($.currentGameFieldModel, $.arrayPointer);
                 $.#switchOff();
             }
-        }
     }
 
     #notifyOrigination(model) {
@@ -136,9 +134,7 @@ class StepGenerator {
     #switchOn() {
         if (!this.#isRunning()) {
             const $ = this;
-            this.executionId = setInterval(function () {
-                $.#run($)
-            }, this.timeout);
+            this.executionId = setInterval(() => $.#run($), this.timeout);
             console.trace("StepGenerator: Step generator was successfully launched: executionId=", this.executionId);
         }
         return this;

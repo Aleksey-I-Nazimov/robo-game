@@ -1,0 +1,22 @@
+
+.rulesHeader {
+    padding: 10px 30px;
+
+    text-align: justify;
+    font-style: normal;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 30px;
+    line-height: 30px;
+}
+
+.rulesText {
+    padding: 10px 30px;
+
+    text-align: justify;
+    font-style: normal;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 19px;
+    line-height: 30px;
+}

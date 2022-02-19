@@ -18,6 +18,8 @@ class GamePanel extends React.Component {
         this.gameId = "gameId";
         this.gameOverId = "gameOverId";
 
+        this.finishAction = null;
+
         this.state = {actionId: this.rulesId};
 
         this.modelProvider = new SettingsModelProvider(new SettingsModel());
@@ -29,11 +31,26 @@ class GamePanel extends React.Component {
     }
 
     onAction(actionId) {
+
+        const prevActionId = this.state.actionId;
+
+        if (prevActionId === this.gameId &&
+            (actionId === this.settingsId || actionId === this.gameOverId)
+        ) {
+            if (this.finishAction !== null) {
+                this.finishAction.onChangedMainPanel();
+            }
+        }
         this.setState({actionId: actionId});
     };
 
     onGameOver() {
         this.onAction(this.gameOverId);
+    }
+
+    setFinishAction(finishAction) {
+        this.finishAction = finishAction;
+        return this;
     }
 
     render() {

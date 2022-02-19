@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import "./LaunchButton.css"
 
 class LaunchButton extends React.Component {
 
@@ -55,10 +55,16 @@ class LaunchButton extends React.Component {
     render() {
         if (this.isPushed()) {
             return <div onClick={this.handleRelease}
-                        onTouchStart={this.handleRelease}>{this.pushTitle}</div>
+                        onTouchStart={this.handleRelease}
+                        className="pushedButton">
+                <p className="pushedWidgetText">{this.pushTitle}</p>
+            </div>
         } else {
             return <div onClick={this.handlePush}
-                        onTouchStart={this.handlePush}>{this.releaseTitle}</div>
+                        onTouchStart={this.handlePush}
+                        className="pushedButton">
+                <p className="pushedWidgetText">{this.releaseTitle}</p>
+            </div>
         }
     }
 

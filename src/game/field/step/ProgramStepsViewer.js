@@ -18,7 +18,6 @@ class ProgramStepsViewer extends React.Component {
         this.setState(this.#makeState(newStepArray))
     }
 
-
     componentDidMount() {
         this.stepModel.addListener(this)
     }

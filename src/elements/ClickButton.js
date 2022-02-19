@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./Button.css"
 
 
 class ClickButton extends React.Component {
@@ -28,7 +29,9 @@ class ClickButton extends React.Component {
 
     render() {
         return (
-            <div onClick={this.handleClick} onTouchStart={this.handleClick}>{this.text}</div>
+            <div onClick={this.handleClick} onTouchStart={this.handleClick} className="clickButton">
+                <p className="widgetText">{this.text}</p>
+            </div>
         );
     }
 

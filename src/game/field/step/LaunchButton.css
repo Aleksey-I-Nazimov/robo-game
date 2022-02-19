@@ -1,0 +1,26 @@
+.pushedWidgetText {
+    position: relative;
+    width: auto;
+    height: 94%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    font-style: normal;
+    font-family: Calibri, sans-serif;
+    font-size: 20px;
+}
+
+.pushedButton {
+    position: relative;
+    width: auto;
+    height: auto;
+    margin-top: 5%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    background: linear-gradient(rgb(220, 220, 255), rgb(130, 130, 230));
+    cursor: pointer;
+    overflow: hidden;
+}
